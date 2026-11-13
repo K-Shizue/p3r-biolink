@@ -1,0 +1,4 @@
+[phases.setup]
+# yt-dlp sengaja tidak dipasang lewat nixPkgs (folder /nix/store bersifat read-only, jadi tidak bisa di-update).
+# Server akan mengunduh yt-dlp ke /tmp saat start dan memperbaruinya sendiri. Butuh python3 dan curl.
+nixPkgs = ["python3", "ffmpeg", "curl"]

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>YT2TOP, YouTube ke link Top4Top</title>
+<meta name="description" content="Ubah link video YouTube menjadi file MP3 lalu unggah otomatis ke Top4Top. Hasilnya satu direct link.">
+<meta name="theme-color" content="#001233">
+<link rel="icon" type="image/png" href="../assets/logo.png">
+<link rel="preload" href="../fonts/Rodin-Pro-UB.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="../assets/bg-intro.webp" as="image" type="image/webp">
+<link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+<div id="loading-screen" class="p3r-loading-screen" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Memuat aplikasi">
+  <div class="loading-hud-bottom">
+    <div class="loading-text-row">
+      <h2 class="loading-title">NOW LOADING<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></h2>
+    </div>
+    <div class="loading-bar-wrap">
+      <div class="loading-track"><div id="loading-bar" class="loading-fill"></div></div>
+      <div id="loading-percent" class="loading-percent">0%</div>
+    </div>
+    <p class="loading-skip">Klik untuk lewati</p>
+  </div>
+</div>
+
+<main class="p3r-main">
+  <div class="p3r-global-vignette" aria-hidden="true"></div>
+
+  <video id="background-video-intro" class="background-video bg-video-intro" data-video="bg-intro" poster="../assets/bg-intro.webp" muted playsinline disablepictureinpicture preload="none"></video>
+  <video id="background-video-loop" class="background-video bg-video-loop" data-video="bg-loop" poster="../assets/bg-loop.webp" loop muted playsinline disablepictureinpicture preload="none"></video>
+
+  <div id="side-number" class="side-number" aria-hidden="true"><span>01</span></div>
+
+  <div class="menu-profile-header" aria-hidden="true">
+    <div class="profile-name-text">YT2TOP</div>
+    <div class="profile-accent-line"></div>
+    <p class="profile-tagline">Link YouTube jadi link Top4Top</p>
+  </div>
+
+  <div id="menu-column" class="menu-column">
+    <h1 class="visually-hidden">YT2TOP, pengubah link YouTube menjadi link Top4Top</h1>
+    <div id="options-list" class="options-list"></div>
+  </div>
+
+  <div class="hud-controls">
+    <div class="buttons-row">
+      <div class="control-item"><div class="control-key">ENTER</div><span class="control-text">Pilih</span></div>
+      <button type="button" id="home-back-btn" class="control-item slink-hud-btn" aria-label="Kembali ke portofolio"><div class="control-key">ESC</div><span class="control-text">Kembali</span></button>
+    </div>
+  </div>
+</main>
+
+<section id="convert-page" class="p3r-slink-screen p3r-convert-screen" aria-label="Halaman konversi" aria-hidden="true">
+  <div class="slink-video-container" aria-hidden="true">
+    <video id="convert-bg-video" class="slink-bg-video" data-video="contact-bg" poster="../assets/contact-bg.webp" loop muted playsinline disablepictureinpicture preload="none"></video>
+    <div class="slink-video-overlay p3r-convert-overlay"></div>
+  </div>
+
+  <div class="slink-viewport p3r-convert-viewport">
+    <div class="p3r-mail-phone-wrap">
+      <svg class="p3r-mail-chassis-svg" viewBox="0 0 880 860" preserveAspectRatio="none" aria-hidden="true">
+        <polygon points="10,28 875,56 875,836 10,858" fill="#070a12"></polygon>
+        <polygon points="22,50 832,96 828,806 18,838" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linejoin="round"></polygon>
+      </svg>
+
+      <div class="p3r-mail-phone-card">
+        <div class="p3r-mail-header-row">
+          <h2 class="p3r-mail-watermark">CONVERT</h2>
+        </div>
+
+        <form id="convert-form" class="conv-list" novalidate>
+          <div class="conv-row" id="row-input">
+            <div class="conv-icon conv-icon-yt" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.8 5 12 5 12 5s-4.8 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.2.8C6.8 19 12 19 12 19s4.8 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM10 15V9l5.5 3-5.5 3z"/></svg>
+            </div>
+            <div class="conv-body">
+              <div class="conv-head">
+                <label class="conv-label" for="ytUrl">YouTube URL</label>
+                <span class="conv-step">01</span>
+              </div>
+              <div class="conv-line" aria-hidden="true"></div>
+              <div class="conv-field">
+                <input type="url" id="ytUrl" name="url" placeholder="https://youtu.be/..." autocomplete="off" spellcheck="false" inputmode="url" required aria-describedby="url-hint">
+                <p id="url-hint" class="conv-hint">watch, youtu.be, shorts, atau embed.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="conv-row">
+            <div class="conv-icon conv-icon-clip" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><rect x="4" y="6" width="16" height="16" rx="2"/><path d="M9 12h6M9 16h4"/></svg>
+            </div>
+            <div class="conv-body">
+              <div class="conv-head">
+                <span class="conv-label" id="paste-label">Clipboard</span>
+                <span class="conv-step">02</span>
+              </div>
+              <div class="conv-line" aria-hidden="true"></div>
+              <div class="conv-field">
+                <button type="button" class="conv-btn" id="pasteBtn" aria-describedby="paste-hint">Tempel dari clipboard</button>
+                <p id="paste-hint" class="conv-hint">Browser akan meminta izin baca clipboard.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="conv-row">
+            <div class="conv-icon conv-icon-up" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V4"/><path d="M6 10l6-6 6 6"/><path d="M4 20h16"/></svg>
+            </div>
+            <div class="conv-body">
+              <div class="conv-head">
+                <span class="conv-label" id="generate-label">Generate dan Upload</span>
+                <span class="conv-step">03</span>
+              </div>
+              <div class="conv-line" aria-hidden="true"></div>
+              <div class="conv-field">
+                <button type="submit" class="conv-btn conv-btn-primary" id="generateBtn">
+                  <span class="conv-btn-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm-2 14.5v-9l6 4.5z"/></svg>
+                  </span>
+                  <span id="btnText">Generate dan Upload</span>
+                </button>
+                <div class="conv-progress" id="convProgress" hidden>
+                  <div class="conv-progress-track"><div class="conv-progress-fill"></div></div>
+                  <p class="conv-hint" id="progressText">Server sedang memproses. Tidak ada estimasi waktu dari server.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="conv-row conv-row-result" id="row-result">
+            <div class="conv-icon conv-icon-link" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+            </div>
+            <div class="conv-body">
+              <div class="conv-head">
+                <span class="conv-label">Hasil</span>
+                <span class="conv-step">04</span>
+              </div>
+              <div class="conv-line" aria-hidden="true"></div>
+              <div class="conv-field" id="resultArea" aria-live="polite">
+                <p class="conv-state" id="resultEmpty">Belum ada link. Isi URL lalu jalankan generate.</p>
+                <div class="conv-success" id="resultSuccess" hidden>
+                  <p class="conv-result-title" id="resultTitle"></p>
+                  <div class="conv-link-box">
+                    <a class="conv-link" id="resultUrl" href="#" target="_blank" rel="noopener"></a>
+                    <button type="button" class="conv-btn conv-btn-copy" id="copyBtn">Salin</button>
+                  </div>
+                  <a class="conv-btn conv-btn-ghost" id="openBtn" href="#" target="_blank" rel="noopener">Buka di Top4Top</a>
+                </div>
+                <div class="conv-state conv-state-error" id="resultError" hidden>
+                  <p id="resultErrorText"></p>
+                  <details class="conv-error-detail" id="resultErrorDetail" hidden>
+                    <summary>Detail teknis</summary>
+                    <pre id="resultErrorRaw"></pre>
+                  </details>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="p3r-contact-bottom-hud">
+      <div class="buttons-row">
+        <button type="button" id="convert-back-btn" class="control-item slink-hud-btn" aria-label="Kembali ke menu utama">
+          <div class="control-key">ESC</div><span class="control-text">Kembali</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="info-page" class="p3r-slink-screen p3r-info-screen" aria-label="Halaman informasi" aria-hidden="true">
+  <div class="slink-video-container" aria-hidden="true">
+    <video id="info-bg-video" class="slink-bg-video" data-video="about-bg" poster="../assets/about-bg.webp" loop muted playsinline disablepictureinpicture preload="none"></video>
+    <div class="slink-video-overlay"></div>
+  </div>
+
+  <div class="slink-viewport p3r-info-viewport">
+    <div class="slink-left-column p3r-info-left-column">
+      <div class="p3r-geometric-header">
+        <div class="p3r-shard-back-band" aria-hidden="true"></div>
+        <div class="p3r-header-slash-main" aria-hidden="true"></div>
+        <h2 class="p3r-banner-title">INFO</h2>
+      </div>
+
+      <div class="p3r-about-card">
+        <div class="p3r-about-card-inner">
+          <div class="p3r-about-top-row">
+            <div class="p3r-about-identity">
+              <h3 class="p3r-about-name">YT2TOP</h3>
+              <div class="p3r-about-title">YouTube ke Top4Top</div>
+            </div>
+          </div>
+
+          <div class="p3r-about-bio">
+            <p class="p3r-about-p">Tempel link YouTube, lalu server mengunduh audionya dengan <strong>yt-dlp</strong>, mengubahnya ke MP3 lewat <strong>ffmpeg</strong>, dan mengunggah file itu ke <strong>Top4Top</strong>.</p>
+            <p class="p3r-about-p">Hasil akhirnya satu direct link. File sementara di server dihapus setelah proses selesai. Simpan link hasilnya, karena file tidak disimpan di sini.</p>
+          </div>
+
+          <dl class="p3r-facts">
+            <div><dt>Format</dt><dd>MP3</dd></div>
+            <div><dt>Host</dt><dd>top4top.io</dd></div>
+            <div><dt>Proses</dt><dd>otomatis</dd></div>
+            <div><dt>Endpoint</dt><dd>POST /api/generate</dd></div>
+            <div><dt>Health</dt><dd>GET /api/health</dd></div>
+          </dl>
+
+          <p class="p3r-about-note">Gunakan hanya untuk konten yang memang boleh diunduh dan dibagikan.</p>
+
+          <footer class="p3r-about-footer">
+            <span>YT2TOP</span>
+            <span>Node.js, yt-dlp, ffmpeg</span>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <div class="slink-bottom-hud">
+      <div class="buttons-row">
+        <button type="button" id="info-back-btn" class="control-item slink-hud-btn" aria-label="Kembali ke menu utama">
+          <div class="control-key">ESC</div><span class="control-text">Kembali</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<audio id="sfx-navigation-el" src="../sfx/navigation.wav" preload="none"></audio>
+<audio id="sfx-close-menu-el" src="../sfx/close-menu.mp3" preload="none"></audio>
+<audio id="sfx-menu-utama-el" src="../sfx/menu-utama.mp3" preload="none"></audio>
+
+<script src="js/app.js?v=4" defer></script>
+</body>
+</html>
